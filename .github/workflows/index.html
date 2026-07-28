@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Laporan Analisis Purata Harga Barangan — Selangor, Julai 2026</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.4/chart.umd.min.js"></script>
+<style>
+  :root {
+    --bg: #f6f5f2;
+    --panel: #ffffff;
+    --ink: #1f2420;
+    --muted: #6b6f6a;
+    --accent: #2f6d4f;
+    --accent-dark: #1f4e38;
+    --line: #e4e1d8;
+    --warn: #b3542c;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    line-height: 1.5;
+  }
+  header {
+    background: linear-gradient(135deg, var(--accent-dark), var(--accent));
+    color: #fff;
+    padding: 40px 24px 32px;
+  }
+  header .wrap { max-width: 1100px; margin: 0 auto; }
+  header p.eyebrow {
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-size: 12px;
+    opacity: 0.85;
+    margin: 0 0 8px;
+  }
+  header h1 { margin: 0 0 8px; font-size: 28px; font-weight: 700; }
+  header p.sub { margin: 0; opacity: 0.9; font-size: 14.5px; max-width: 680px; }
+
+  main { max-width: 1100px; margin: -24px auto 60px; padding: 0 24px; }
+
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+    gap: 14px;
+    margin-bottom: 28px;
+  }
+  .card {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 18px 18px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.03);
+  }
+  .card .label { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 6px;}
+  .card .value { font-size: 20px; font-weight: 700; color: var(--accent-dark); }
+  .card .value small { font-size: 13px; font-weight: 500; color: var(--muted); display:block; margin-top:2px; }
+
+  section {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 22px 24px;
+    margin-bottom: 24px;
+  }
+  section h2 {
+    font-size: 16.5px;
+    margin: 0 0 4px;
+    color: var(--accent-dark);
+  }
+  section p.desc { margin: 0 0 16px; color: var(--muted); font-size: 13.5px; }
+
+  .chart-box { position: relative; height: 300px; }
+
+  .controls {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 14px;
+    flex-wrap: wrap;
+  }
+  .controls input[type="text"] {
+    flex: 1;
+    min-width: 200px;
+    padding: 9px 12px;
+    border-radius: 8px;
+    border: 1px solid var(--line);
+    font-size: 13.5px;
+    background: #fbfaf7;
+  }
+  .controls input[type="text"]:focus { outline: 2px solid var(--accent); outline-offset: -1px; }
+
+  table { width: 100%; border-collapse: collapse; font-size: 13.3px; }
+  thead th {
+    text-align: left;
+    padding: 9px 10px;
+    background: #f0efe9;
+    color: var(--accent-dark);
+    border-bottom: 2px solid var(--line);
+    cursor: pointer;
+    user-select: none;
+    white-space: nowrap;
+  }
+  thead th:hover { background: #e7e5db; }
+  thead th.num, td.num { text-align: right; }
+  tbody td { padding: 8px 10px; border-bottom: 1px solid var(--line); }
+  tbody tr:hover { background: #faf9f5; }
+  td.item-name { font-weight: 600; }
+  .arrow { font-size: 10px; opacity: 0.5; margin-left: 3px; }
+
+  .tag {
+    display: inline-block;
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 999px;
+    background: #eaf2ec;
+    color: var(--accent-dark);
+    font-weight: 600;
+  }
+  .tag.warn { background: #f7e9e2; color: var(--warn); }
+
+  footer {
+    max-width: 1100px;
+    margin: 0 auto 40px;
+    padding: 0 24px;
+    color: var(--muted);
+    font-size: 12px;
+  }
+
+  @media (max-width: 640px) {
+    header h1 { font-size: 22px; }
+    table { font-size: 12px; }
+    thead th, tbody td { padding: 7px 6px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <p class="eyebrow">Laporan Analisis Harga Barangan Keperluan</p>
+    <h1>Purata Harga Pasaran mengikut Item — Selangor</h1>
+    <p class="sub">Disediakan daripada data Pemantauan Harga Pasaran (PHP) mengikut Daerah Pentadbiran, Julai 2026. Merangkumi 31 item merentasi 4 daerah: Klang, Kuala Selangor, Petaling, dan Sabak Bernam.</p>
+  </div>
+</header>
+
+<main>
+
+  <div class="cards">
+    <div class="card">
+      <div class="label">Jumlah Item Dipantau</div>
+      <div class="value">31 <small>merentasi 4 daerah</small></div>
+    </div>
+    <div class="card">
+      <div class="label">Item Paling Murah (Purata)</div>
+      <div class="value">Roti Canai <small>RM 1.75 seketul</small></div>
+    </div>
+    <div class="card">
+      <div class="label">Item Paling Mahal (Purata)</div>
+      <div class="value">Udang 8–12cm <small>RM 45.12 sekilo</small></div>
+    </div>
+    <div class="card">
+      <div class="label">Jurang Harga Terbesar</div>
+      <div class="value">Sotong 10–12cm <small>RM 35.90 (min–maks)</small></div>
+    </div>
+  </div>
+
+  <section>
+    <h2>Purata Harga Keseluruhan mengikut Daerah</h2>
+    <p class="desc">Purata dikira merentasi semua item dan outlet yang direkodkan bagi setiap daerah. Petaling mencatatkan purata keseluruhan tertinggi, manakala Kuala Selangor terendah.</p>
+    <div class="chart-box"><canvas id="daerahChart"></canvas></div>
+  </section>
+
+  <section>
+    <h2>Jadual Purata Harga bagi Setiap Item</h2>
+    <p class="desc">Purata dikira daripada kesemua harga outlet yang ada bagi setiap item (nilai "TIADA" diabaikan). Klik header lajur untuk susun; taip nama item di bawah untuk tapis. Julat (min–maks) menunjukkan perbezaan harga terendah dan tertinggi yang direkodkan bagi item tersebut, tanpa mengira daerah.</p>
+    <div class="controls">
+      <input type="text" id="searchBox" placeholder="Cari item, cth: cili, ikan, telur...">
+    </div>
+    <div style="overflow-x:auto;">
+    <table id="priceTable">
+      <thead>
+        <tr>
+          <th data-key="bil" data-type="num">Bil.<span class="arrow">↕</span></th>
+          <th data-key="nama" data-type="str">Item<span class="arrow">↕</span></th>
+          <th data-key="avg" data-type="num" class="num">Purata (RM)<span class="arrow">↕</span></th>
+          <th data-key="min" data-type="num" class="num">Min (RM)<span class="arrow">↕</span></th>
+          <th data-key="max" data-type="num" class="num">Maks (RM)<span class="arrow">↕</span></th>
+          <th data-key="range" data-type="num" class="num">Julat (RM)<span class="arrow">↕</span></th>
+          <th data-key="klang" data-type="num" class="num">Klang<span class="arrow">↕</span></th>
+          <th data-key="ks" data-type="num" class="num">K. Selangor<span class="arrow">↕</span></th>
+          <th data-key="petaling" data-type="num" class="num">Petaling<span class="arrow">↕</span></th>
+          <th data-key="sb" data-type="num" class="num">Sabak Bernam<span class="arrow">↕</span></th>
+        </tr>
+      </thead>
+      <tbody id="tableBody">
+      </tbody>
+    </table>
+    </div>
+  </section>
+
+  <section>
+    <h2>Pemerhatian Utama</h2>
+    <ul style="margin:0; padding-left: 18px; font-size: 13.8px; color: var(--ink);">
+      <li style="margin-bottom:8px;"><span class="tag">Termahal</span> Hasil laut (udang, ketam laut, sotong) dan daging tempatan mencatatkan purata harga tertinggi, kesemuanya melebihi RM 40 sekilo.</li>
+      <li style="margin-bottom:8px;"><span class="tag">Termurah</span> Roti canai, teh tarik, dan epal Fuji merupakan antara item dengan purata harga terendah keseluruhan.</li>
+      <li style="margin-bottom:8px;"><span class="tag warn">Jurang Besar</span> Sotong (RM 35.90), ketam laut (RM 29.90), dan kubis bunga (RM 23.50) menunjukkan jurang harga terbesar antara outlet termurah dan termahal — mencadangkan variasi harga yang tinggi antara daerah/outlet.</li>
+      <li style="margin-bottom:8px;"><span class="tag">Daerah</span> Petaling secara konsisten mencatatkan purata harga lebih tinggi berbanding tiga daerah lain, manakala Kuala Selangor dan Sabak Bernam cenderung lebih rendah.</li>
+      <li><span class="tag warn">Data Tidak Lengkap</span> Beberapa item (cth: cili merah Kulai, kubis bunga, sawi bunga, udang) mempunyai rekod "TIADA" di sesetengah daerah/outlet, jadi purata bagi item ini dikira hanya daripada harga yang tersedia.</li>
+    </ul>
+  </section>
+
+</main>
+
+<footer>
+  Sumber data: PHP_MENGIKUT_DAERAH_PENTADBIRAN_julai_2026.xlsx (Sheet: 10 SELANGOR). Purata dikira secara automatik daripada nilai harga outlet yang direkodkan; entri "TIADA" tidak dikira dalam purata.
+</footer>
+
+<script>
+const items = [{"bil": 1, "nama": "Bayam (1kg)", "avg": 8.37, "min": 4.5, "max": 14.5, "range": 10.0, "klang": 4.92, "ks": 7.75, "petaling": 13.05, "sb": 7.75}, {"bil": 2, "nama": "Bendi (1kg)", "avg": 10.24, "min": 7, "max": 14, "range": 7, "klang": 10.5, "ks": 9.0, "petaling": 13.45, "sb": 8.0}, {"bil": 3, "nama": "Petola (1kg)", "avg": 10.44, "min": 7.9, "max": 24, "range": 16.1, "klang": 8.25, "ks": 9.0, "petaling": 16.5, "sb": 8.0}, {"bil": 4, "nama": "Bawang besar, India (1kg)", "avg": 3.86, "min": 1.99, "max": 4.5, "range": 2.51, "klang": 3.75, "ks": 1.99, "petaling": 4.25, "sb": 4.5}, {"bil": 5, "nama": "Cili merah segar, Kulai (1kg)", "avg": 17.6, "min": 12.99, "max": 23.5, "range": 10.51, "klang": 16.5, "ks": null, "petaling": 21.0, "sb": 12.99}, {"bil": 6, "nama": "Cili merah segar, Minyak (1kg)", "avg": 17.83, "min": 16, "max": 20.98, "range": 4.98, "klang": 18.0, "ks": 16.5, "petaling": 19.32, "sb": 17.5}, {"bil": 7, "nama": "Kacang panjang (1kg)", "avg": 11.08, "min": 8.5, "max": 15.6, "range": 7.1, "klang": 10.79, "ks": 10.0, "petaling": 14.8, "sb": 8.75}, {"bil": 8, "nama": "Kacang Buncis (1kg)", "avg": 18.05, "min": 12.5, "max": 22, "range": 9.5, "klang": 16.08, "ks": 19.0, "petaling": 21.6, "sb": 15.5}, {"bil": 9, "nama": "Kubis Bunga (1kg)", "avg": 11.35, "min": 5, "max": 28.5, "range": 23.5, "klang": 5.5, "ks": null, "petaling": 17.2, "sb": null}, {"bil": 10, "nama": "Lobak merah, China (1kg)", "avg": 6.23, "min": 5, "max": 7, "range": 2, "klang": 6.35, "ks": 7.0, "petaling": 6.55, "sb": 5.0}, {"bil": 11, "nama": "Sawi bunga (1kg)", "avg": 9.0, "min": 8, "max": 10, "range": 2, "klang": 8.0, "ks": null, "petaling": 10.0, "sb": 9.0}, {"bil": 12, "nama": "Tomato (1kg)", "avg": 9.54, "min": 7.5, "max": 12, "range": 4.5, "klang": 8.25, "ks": 11.0, "petaling": 8.93, "sb": 10.0}, {"bil": 13, "nama": "Terung (1kg)", "avg": 10.14, "min": 8, "max": 12, "range": 4, "klang": 9.05, "ks": 12.0, "petaling": 10.5, "sb": 9.0}, {"bil": 14, "nama": "Timun (1kg)", "avg": 5.82, "min": 5, "max": 8.2, "range": 3.2, "klang": 6.6, "ks": 5.5, "petaling": 6.17, "sb": 5.0}, {"bil": 15, "nama": "Epal Fuji (1 biji)", "avg": 2.98, "min": 2, "max": 4.9, "range": 2.9, "klang": 3.7, "ks": 2.5, "petaling": 3.38, "sb": 2.34}, {"bil": 16, "nama": "Betik (1kg)", "avg": 7.67, "min": 6.49, "max": 9, "range": 2.51, "klang": 7.75, "ks": 7.0, "petaling": 8.95, "sb": 7.0}, {"bil": 17, "nama": "Nenas (1kg)", "avg": 5.71, "min": 3.99, "max": 7.25, "range": 3.26, "klang": 5.85, "ks": 5.0, "petaling": 6.97, "sb": 5.0}, {"bil": 18, "nama": "Pisang berangan (1kg)", "avg": 8.42, "min": 6.5, "max": 9.5, "range": 3.0, "klang": 8.3, "ks": null, "petaling": 9.5, "sb": 6.5}, {"bil": 19, "nama": "Kelapa parut (1kg)", "avg": 12.12, "min": 10, "max": 14, "range": 4, "klang": 13.0, "ks": 12.0, "petaling": 13.5, "sb": 10.0}, {"bil": 20, "nama": "Santan kelapa segar (1kg)", "avg": 14.62, "min": 10, "max": 19, "range": 9, "klang": 15.0, "ks": 10.0, "petaling": 17.5, "sb": 16.0}, {"bil": 21, "nama": "Telur ayam Gred C (10 biji)", "avg": 3.96, "min": 3.66, "max": 4.3, "range": 0.64, "klang": 4.05, "ks": 3.83, "petaling": 3.9, "sb": 4.05}, {"bil": 22, "nama": "Ikan cencaru (1kg)", "avg": 13.71, "min": 11, "max": 16, "range": 5, "klang": 15.4, "ks": 12.5, "petaling": 15.95, "sb": 11.0}, {"bil": 23, "nama": "Ikan kembung (1kg)", "avg": 22.39, "min": 15, "max": 27.2, "range": 12.2, "klang": 22.95, "ks": 16.0, "petaling": 26.6, "sb": 24.0}, {"bil": 24, "nama": "Ayam proses (1kg)", "avg": 11.04, "min": 9.29, "max": 13, "range": 3.71, "klang": 10.85, "ks": 10.4, "petaling": 13.0, "sb": 9.89}, {"bil": 25, "nama": "Daging tempatan (1kg)", "avg": 40.1, "min": 25, "max": 53, "range": 28, "klang": 42.95, "ks": 25.0, "petaling": 49.9, "sb": 35.0}, {"bil": 26, "nama": "Udang, 8-12cm (1kg)", "avg": 45.12, "min": 35, "max": 59.9, "range": 24.9, "klang": 53.4, "ks": 35.5, "petaling": 46.45, "sb": null}, {"bil": 27, "nama": "Sotong, 10-12cm (1kg)", "avg": 42.01, "min": 24, "max": 59.9, "range": 35.9, "klang": 49.45, "ks": 29.0, "petaling": 54.9, "sb": 34.7}, {"bil": 28, "nama": "Ketam laut (1kg)", "avg": 45.06, "min": 30, "max": 59.9, "range": 29.9, "klang": 47.9, "ks": 30.0, "petaling": 57.9, "sb": 36.9}, {"bil": 29, "nama": "Nasi putih penuh, berserta ayam dan sayur (1 pinggan)", "avg": 9.56, "min": 8.5, "max": 12, "range": 3.5, "klang": 10.0, "ks": 8.75, "petaling": 11.0, "sb": 8.5}, {"bil": 30, "nama": "Roti canai (1 keping)", "avg": 1.75, "min": 1.5, "max": 2, "range": 0.5, "klang": 1.9, "ks": 1.6, "petaling": 1.8, "sb": 1.7}, {"bil": 31, "nama": "Teh tarik (1 cawan)", "avg": 2.8, "min": 2, "max": 3.5, "range": 1.5, "klang": 2.6, "ks": 2.85, "petaling": 3.45, "sb": 2.3}];
+
+function fmt(v) {
+  return (v === null || v === undefined) ? '—' : 'RM ' + v.toFixed(2);
+}
+
+let sortState = { key: 'bil', dir: 1 };
+
+function render(list) {
+  const tbody = document.getElementById('tableBody');
+  tbody.innerHTML = list.map(it => `
+    <tr>
+      <td>${it.bil}</td>
+      <td class="item-name">${it.nama}</td>
+      <td class="num">${fmt(it.avg)}</td>
+      <td class="num">${fmt(it.min)}</td>
+      <td class="num">${fmt(it.max)}</td>
+      <td class="num">${fmt(it.range)}</td>
+      <td class="num">${fmt(it.klang)}</td>
+      <td class="num">${fmt(it.ks)}</td>
+      <td class="num">${fmt(it.petaling)}</td>
+      <td class="num">${fmt(it.sb)}</td>
+    </tr>
+  `).join('');
+}
+
+function applyAll() {
+  const q = document.getElementById('searchBox').value.trim().toLowerCase();
+  let list = items.filter(it => it.nama.toLowerCase().includes(q));
+  list.sort((a,b) => {
+    const k = sortState.key;
+    let av = a[k], bv = b[k];
+    if (typeof av === 'string') { av = av.toLowerCase(); bv = bv.toLowerCase(); }
+    if (av === null) av = -Infinity;
+    if (bv === null) bv = -Infinity;
+    if (av < bv) return -1 * sortState.dir;
+    if (av > bv) return 1 * sortState.dir;
+    return 0;
+  });
+  render(list);
+}
+
+document.getElementById('searchBox').addEventListener('input', applyAll);
+
+document.querySelectorAll('#priceTable thead th').forEach(th => {
+  th.addEventListener('click', () => {
+    const key = th.dataset.key;
+    if (sortState.key === key) sortState.dir *= -1;
+    else { sortState.key = key; sortState.dir = 1; }
+    applyAll();
+  });
+});
+
+applyAll();
+
+// Daerah comparison chart
+const ctx = document.getElementById('daerahChart').getContext('2d');
+new Chart(ctx, {
+  type: 'bar',
+  data: {
+    labels: ['Klang', 'Kuala Selangor', 'Petaling', 'Sabak Bernam'],
+    datasets: [{
+      label: 'Purata Harga Keseluruhan (RM)',
+      data: [14.44, 11.46, 17.03, 11.65],
+      backgroundColor: ['#2f6d4f', '#5a9178', '#1f4e38', '#7fa892'],
+      borderRadius: 6,
+      maxBarThickness: 70
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: { legend: { display: false } },
+    scales: {
+      y: { beginAtZero: true, ticks: { callback: v => 'RM ' + v } }
+    }
+  }
+});
+</script>
+
+</body>
+</html>
